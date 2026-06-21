@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>crazy</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #000000;
+  --text:    #bdbdbd;
+  --dim:     #686868;
+  --hi:      #e6e6e6;
+  --link:    #56c8ff;
+  --border:  #242424;
+  --mono: "Menlo","Consolas","DejaVu Sans Mono","Liberation Mono","Courier New",monospace;
+}
+
+html { font-size: 14px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  line-height: 1.65;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-top: 15px;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:visited { color: #8a7fdf; }
+
+/* HEADER */
+header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+}
+header .name { font-size: 1rem; color: var(--hi); display: block; margin-bottom: 4px; }
+header .tagline { color: var(--dim); font-size: 0.85rem; }
+header nav { margin-top: 10px; font-size: 0.82rem; color: var(--dim); }
+header nav a {
+  color: var(--link);
+  cursor: pointer;
+  text-decoration: none;
+}
+header nav a:hover { text-decoration: underline; }
+header nav a.active { color: var(--hi); text-decoration: underline; }
+header nav span { margin: 0 5px; color: var(--border); }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* LABEL */
+.label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--dim);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 3px;
+  margin-bottom: 14px;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  font-size: 0.78rem;
+  color: var(--dim);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 40px;
+}
+footer a { color: var(--dim); }
+footer a:hover { color: var(--link); }
+
+/* NOW */
+.now-line {
+  display: flex;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 0.8rem;
+}
+.now-line:last-child { border-bottom: none; }
+.now-key { color: var(--dim); min-width: 130px; flex-shrink: 0; }
+.now-val { color: var(--text); }
+
+/* WRITING */
+.entry { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+.entry:last-child { border-bottom: none; }
+.entry-title a { color: var(--hi); }
+.entry-title a:hover { color: var(--link); text-decoration: underline; }
+.entry-title a:visited { color: var(--hi); }
+.entry-meta { color: var(--dim); font-size: 0.78rem; margin-top: 2px; }
+.entry-desc { color: var(--text); margin-top: 4px; font-size: 0.84rem; line-height: 1.55; }
+
+/* NOTES */
+.note { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.855rem; }
+.note:last-child { border-bottom: none; }
+.note-line {
+  font-size: smaller;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+  
+}
+.note-line:last-child { border-bottom: none; }
+.note-link {
+    text-decoration: none;
+    font-size: 1.2em;
+    line-height: 1;
+    margin-left: 0.1rem;  
+}
+.note-link:hover { color: var(--link); text-decoration: underline; }
+
+.notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.notes-table th,
+.notes-table td {
+    text-align: left;
+    padding: 4px 0;
+    vertical-align: top;
+    font-size: 0.9rem;
+}
+
+.notes-table th {
+    color: #555555;
+}
+
+.notes-table th:nth-child(1),
+.notes-table td:nth-child(1) {
+    width: 180px;
+}
+
+.notes-table th:nth-child(2),
+.notes-table td:nth-child(2) {
+    width: auto;
+    padding-right: 30px;
+}
+
+.notes-table th:nth-child(3),
+.notes-table td:nth-child(3) {
+    width: 110px;
+    white-space: nowrap;
+}
+
+.notes-table a {
+    color: var(--link);
+    text-decoration: underline;
+}
+
+/* COMMONPLACE */
+
+.quote-block {
+  padding: 9px 0 9px 14px;
+  font-size: 0.875rem;
+}
+.quote-text { color: var(--text); font-style: italic; line-height: 1.65; }
+.quote-src  { color: var(--dim); font-size: 0.78rem; margin-top: 5px; font-style: normal; }
+.quote-src span { color: var(--link); }
+
+/* READING */
+
+.book-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+}
+
+.book-cover {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.book-info {
+  flex: 1;
+}
+
+.book-title {
+  color: var(--hi);
+  font-size: 0.92rem;
+}
+
+.book-author {
+  color: var(--dim);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.book-status {
+  color: var(--dim);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+/* ABOUT */
+.about-text { font-size: 13px; line-height: 1.75; color: var(--text); }
+.about-text p + p { margin-top: 12px; }
+
+/* THOUGHTS */
+.thoughts-text { font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+.thoughts-text p + p { margin-top: 12px; }
+
+
+/* PICTURE */
+
+.about-avatar {
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin: 8px 0 8px;
+  filter: grayscale(100%);
+}
+
+.thoughts-avatar {
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin: 8px 0 24px;
+}
+
+.writing-avatar {
+  align-items: center;
+  width: 400px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin: 8px 0 24px;
+}
+
+details {
+  margin-top: 8px;
+}
+
+summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::marker {
+    content: "";
+}
+
+summary::before {
+    content: "";
+}
+
+details[open] summary {
+  margin-bottom: 10px;
+}
+
+.essay {
+  font-size: 14px;
+  padding: 1px 0;
+}
+
+.essay[open] .entry-title {
+    color: var(--link); /* your blue */
+}
+
+.essay summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.entry-title {
+  display: block;
+  color: var(--hi);
+  margin-bottom: 2px;
+}
+
+.entry-title a {
+    color: var(--hi);
+    text-decoration: none;
+}
+
+.entry-title a:hover {
+    color: var(--link);
+    text-decoration: none;
+}
+
+.entry-meta {
+    color: var(--dim);
+    text-decoration: none;
+    cursor: default;
+}
+
+.entry-meta a{
+    color: var(--link);
+    text-decoration: none;
+    cursor: default;
+}
+
+.entry-content {
+  margin-top: 10px;
+  line-height: 1.7;
+}
+
+.connect-links {
+  font-size: 12px;
+  margin: 20px 0 0;
+  color: var(--dim);
+}
+
+.connect-links a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.connect-links a:hover {
+  color: var(--hi);
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <span class="name"></span>
+  <span class="tagline"></span>
+  <nav> 
+    <a href="https://blog.shaivarth.com" target="_blank" rel="noopener noreferrer" id="nav-home">blog.shaivarth.com</a><span>·</span>
+    <a onclick="go('about')"         id="nav-about">about</a><span>·</span>
+    <a onclick="go('thoughts')"       id="nav-thoughts">ME</a><span>·</span>
+    <a onclick="go('reading')"       id="nav-reading">reads</a><span>·</span>
+    <a onclick="go('writing')"       id="nav-writing">writes</a><span>·</span>
+    <a onclick="go('notes')"         id="nav-notes">notes</a><span>·</span>
+    <a onclick="go('now')"           id="nav-now">now</a><span>·</span>
+    <a onclick="go('commonplace')"   id="nav-commonplace">quotes</a><span>·</span>
+    <a onclick="go('connect')"     id="nav-connect">connect</a><span>·</span> 
+  </nav>
+</header>
+
+
+<!-- ══ NOW ══════════════════════════════════════════════════════════════════ -->
+<div class="page active" id="page-now">
+  <div class="label">now</div> 
+  <div class="now-line"><span class="now-key">reading</span><span class="now-val">The Eternal Religion by Karan Singh</span></div>
+  <div class="now-line"><span class="now-key">learning</span><span class="now-val">Python, defensive security skills, computer networks</span></div>
+  <div class="now-line"><span class="now-key">looping</span><span class="now-val">Jaago Mohan Pyaare (Raag Bhairav) by Sarvshreshtha Mishra</span></div>
+  <div class="now-line"><span class="now-key">last updated</span><span class="now-val">Sunday, 21 June 2026</span></div>
+</div>
+
+
+<!-- ══ WRITING ══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-writing">
+  <div class="label">essays and long-form thoughts</div>
+
+    <div class="entry">
+      <details class="essay">
+        <summary>
+          <a class="entry-title">The Performance of Intellect Without Substance</a>
+          <a class="entry-meta">Oct 10 2025</a>
+        </summary>
+        <div class="entry-content"> 
+          <img src="images/writing/essay3.webp" alt="thoughts" class="writing-avatar">
+          <p>
+            In today's world, when I look around, I find too much noise, the noise of intellectualism. Intellectualism which is not how it’s supposed to be, but rather a performance of it. Nowadays, I see this kind of intellectualism everywhere.<br><br>
+            Almost every third person is an intellectual today. I find a great amount of amaze in me when I observe this change in society, and it’s not too old, this change has occurred in recent times. Before, it wasn’t the case. 
+            Before, people were simple, not in the sense of being uneducated, but in being sincere about what they know and what they dont.<br><br>
+            Knowledge was something sacred, something earned through experience and rigorous pursuit of understanding things. 
+            In the past, an intellectual was someone who had dedicated a great amount of time and energy to learn and study with genuine curiosity and dedication about things.<br><br>
+            Today, being an intellectual has become a fashion. It’s not knowledge that people seek nowadays, it’s the appearance of it. people don’t want to ‘be’ wise, they just want to ‘look’ wise. 
+            It has become a ‘theatre of intellect’, where everybody is acting to look intellectual.<br><br>
+            People have all kinds of opinions about figures like Gandhi, Nehru, Ambedkar, Savarkar, and many more, without even reading a single page of a book about them or even books written by them. 
+            Similarly, you’ll find someone talking about Vedānta and the Upanishads, calling themselves so called knowers of Indian philosophy, but in reality, they know nothing. 
+            Literally nothing more than the last reel they watched about it, or the half remembered podcasts. They are like dominos, just ask them one straight forward question about what they are talking about, and watch them fall apart in pieces. They know nothing, still they choose to speak about it.<br><br>
+            The most shocking ones to me are the people who talk about history and philosophy in a tone as if they’ve already done a Phd on it. Everybody has become an ‘expert of philosophy’ nowadays. 
+            They are not interested in genuinely understanding anything new, they just want to appear aware of the topic. They won’t even take the time to study it properly. Rather they’ll collect some fast-food information from a podcast or a video about philosophy, just so they can drop few words when the topic comes up and it’s not even just general knowledge, they react as if they know everything.<br><br>
+            On a topic like philosophy, I don’t understand how people speak with such audacity. 
+            I have been myself reading Indian philosophy for the past 3 years, and even I speak like, ‘Today I learned this,’ or ‘Today I got to know that,’ as if I’m dying to share what I learnt, You will find a spark of curiosity in the eyes of those who genuinely care about these things when they speak, and on the other hand you’ll see arrogance and a sense of pride in those who are the ‘performers of intellect.’<br><br>
+            They talk about Vedānta, but they don’t know what Adhyāsa is, what Vivarta means, or what Upādhi is in Shankara’s Advaita Vedānta. 
+            They speak about terms like Brahman, Ātman, or Maya as if merely knowing these terms grants them a certificate of being a knower of Vedānta. 
+            But the moment you ask them about the subtlety of superimposition, or how the world is a vivarta of Brahman, or how upādhis creates the illusion of multiplicity, they fall apart, just like dominoes do.<br><br>
+            Similarly, they talk about Buddhism and claim how Buddhism had overpowered Hindu dharma and was originated in protest of the caste system, but they don’t know who Nāgārjuna is, what śūnyatā means, or what Nāgārjuna’s argument for the emptiness of all phenomena is, or what Madhyamaka philosphy is all about. 
+            Forget about these terms, they don’t even know that there are types of Buddhism, Mahāyāna, Vajrayāna, and Theravāda and even more minor ones.<br><br>
+            Because this is not something you’ll easily find on any podcasts or reels, this you’ll only know when you are genuinely curious about these things and your motivation is to know, and not to show.<br><br>
+            I tried to think about the problem behind this and why people behave this way, and the only explanation I came up with is that the recognition you receive when people listen to you speak about these topics leads to a dopamine rush, and most people want to feel it, they love it. But whatever the reason behind it, it is sad to see a generation of people who just want to know surface level things so that they can show that they know, rather than truly understand or simply observe the greatness we, as a civilization, have discovered, developed, and written about in those philosophical concepts, arguments, and debates, all in the pursuit of that one goal, to know.(as much as we can)<br><br>
+            Today, I see that depth and true understanding of things have been replaced by surface level information. It’s a sad to see that people are more interested in sounding knowledgeable than in truly knowing.<br><br>
+          </p>
+            <p>— Śaivārtha</p>
+        </div>
+      </details>
+
+      <details class="essay">
+        <summary>
+          <a class="entry-title">Divenire Through Heidegger’s Seinsfrage and Utpaladeva’s Pratyabhijñā</a>
+          <a class="entry-meta">Oct 9, 2025</a>
+        </summary>
+        <div class="entry-content">
+          <img src="images/writing/essay2.webp" alt="thoughts" class="writing-avatar">
+          <p>
+            ‘Who am I’ has never been a question of great importance or curiosity for me. Rather, I always thought about ‘what am I?’ Thou, meaning exactly the same, I couldn’t settle for ‘who,’ but ‘what.’<br><br>
+            For me, ‘who am I,’ limits the possibility. It is confining me to someone or to a limited definition of myself or a personality. When I say, ‘who am I,’ I’m already rejecting the idea of me being a pebble, or a leaf, or a mountain, or something else, not ‘someone.’<br><br>
+            Why I’m not able to settle for ‘Who am I’ is solely because, someday if I were ever to discover ‘who’ I am, then from that very moment that knowing would fix itself as my identity, and from that moment onward, I would be bound to it in my own mind. But if I remain curious about ‘What am I’, even if I come to know it someday, I could never be able to reduce myself to it. Rather, I would rest in peace with it, ‘unconfined’.<br><br>
+            Heidegger’s ‘Seinsfrage’, or the question of Being, directs attention to existence itself rather than to a fixed personal identity. By asking “What am I?” or “what does it mean to be” instead of “who am I?”, one opens the mind to possibility. Which makes me think of life as Divenire, a process of becoming that never ends, where I realize and understand the Reality gradually rather than being confined to a single definition.<br><br>
+            Similarly, when I read Kshemarāja’s Pratyabhijñāhṛdayam, I realize that all limitations, such as body, mind, and ego, are merely apparent adjuncts, and I shouldn’t confine myself to them.<br><br>
+            Also, while in a process of divenire, I know very well that, according to Pratyabhijñāhṛdayam, there is nothing ‘to become’, it is already my nature as the infinite consciousness, Śiva. But until I myself reach that conclusion, I will not identify with the answer, and that is why I consider life as a process to become (Divenire), led by the fundamental inquiry, whether through the ‘question of being (Seinsfrage)’, ‘neti-neti’, or ‘Pratyabhijñā’ as a means of knowing, rather than confining oneself to a fixed identity.<br><br>
+            Therefore, when I ask myself,‘what am I’, it sparks the very idea of knowing myself in me, and in the journey of it, I may understand Reality, and the very existence, maybe someday, I may realize what I was searching for. what I was trying to become. what I was, am, and will be, if I will. someday.<br><br>
+            — Śaivārtha.
+          </p>
+        </div>
+      </details> 
+
+      <details class="essay">
+        <summary>
+          <a class="entry-title">Women as Custodians of Knowledge and Culture in Ancient India</a>
+          <a class="entry-meta">Oct 5, 2025</a>
+        </summary>
+        <div class="entry-content">
+          <img src="images/writing/essay1.webp" alt="thoughts" class="writing-avatar">
+          <p>read it <a href="https://shaivarth.medium.com/women-as-custodians-of-knowledge-and-culture-in-ancient-india-ebcbd4c3e75e">here.</a></p>
+        </div>
+      </details>
+    </div>
+
+</div>
+
+
+<!-- ══ NOTES ════════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-notes">
+  <div class="label">notes — short observations and links</div>
+
+    <table class="notes-table">
+    <thead>
+        <tr>
+        <th>word</th>
+        <th>description</th>
+        <th>date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td><a href="https://unit42.paloaltonetworks.com/fast-flux-101/">fastflux</a></td>
+        <td>How attackers hide infrastructure by rotating IP addresses.</td>
+        <td>22 june 2026</td>
+        </tr>
+    </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══ COMMONPLACE ══════════════════════════════════════════════════════════ -->
+<div class="page" id="page-commonplace">
+  <div class="label">words or things I collect and return to</div>
+
+  <div class="quote-block">
+    <img src="images/commonplace/mountain.webp" class="writing-avatar" alt="mountain"> 
+    <div class="quote-text">I used to be a mountain.</div>
+    <div class="quote-src">found it on pinterest</div>
+  </div>
+</div>
+
+
+<!-- ══ READING ══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-reading">
+  <div class="label">reading log</div>
+
+  <div class="book-row">
+    <img src="images/books/theeternalreligion.webp" class="book-cover" alt="The Eternal Religion">
+    <div class="book-info">
+      <div class="book-title">The Eternal Religion</div>
+      <div class="book-author">Karan Singh</div>
+      <div class="book-status">reading</div> 
+    </div>
+  </div>
+
+  <div class="book-row">
+    <img src="images/books/tagorenationalism.webp" class="book-cover" alt="tagorenationalism">
+    <div class="book-info">
+      <div class="book-title">Nationalism</div>
+      <div class="book-author">Rabindranath Tagore</div>
+      <div class="book-status">read</div>
+    </div>
+  </div>
+
+  <div class="book-row">
+    <img src="images/books/theoriginstoryofindiasstates.webp" class="book-cover" alt="theoriginstoryofindiasstates">
+    <div class="book-info">
+      <div class="book-title">The Origin Story of India's States</div>
+      <div class="book-author">Venkataraghavan Subha Srinivasan</div>
+      <div class="book-status">read</div>
+    </div>
+  </div>
+
+  <div class="book-row">
+    <img src="images/books/revolutionaries.webp" class="book-cover" alt="revolutionaries">
+    <div class="book-info">
+      <div class="book-title">Revolutionaries</div>
+      <div class="book-author">Sanjeev Sanyal</div>
+      <div class="book-status">read</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ══ ABOUT ════════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="label">about</div>
+
+  <div class="about-text">
+    <img src="images/me.webp" alt="Shaiv" class="about-avatar">
+    <p>Hi I'm Shaiv, I'm a Security engineer, I work in the cybersecurity domain, especiallly on threat detection. This is my professional life, but not all of which I do is boring. I do some really cool things too which I will write about here.</p>
+    <p>I spend a lot of time thinking, reading & writing about philosophy and classical indian traditions and schools of thought like adwaita vedānta, vajrayana and mahayana buddhism, nyāya, yoga, kashmir shaivism, i read western philosophy too(sometimes). </p>
+    <p>I love reading history, understanding why things ended up the way they did, and lately I have developed an interest in understanding women and their history, I do also read biographies of people who are dead now, and I enjoy discussions on anything and with anybody, so feel free to <a href ="mailto:shaivarthax@gmail.com">ping</a> me.</p>
+    <p>I also build things, tools, websites, little experiments, and whatever else seems fun or useful at the time. You can check out some of my work over <a href ="https://sarthakmishra.in">here</a>. but that was about my work, This site is different. It's just a place where I dump thoughts, things I'm reading, ideas, and random observations, hoping someone else might find them interesting too.</p>
+    <p>The name <a href ="https://shaivarth.com">shaivarth</a> [शैवार्थ] breaks into Śaiva (of <a href ="https://en.wikipedia.org/wiki/Shiva">Śiva</a>) and artha (purpose or meaning). Put together, Śaivārtha can be understood as - 'that which pertains to Śiva’s purpose'. I didn't choose it for the philosophy, but the philosophy fits.</p>
+    <p>If something here interests you, write to me: <a href="mailto:shaivarthax@gmail.com">shaivarthax@gmail.com</a>. I read everything.</p>
+  </div>
+</div>
+
+<!-- ══ ME ════════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-thoughts">
+  <div class="label">just ME talking</div>
+
+  <a>21 June 2026 23:31</a>
+  <div class="thoughts-text">
+    <br><p>I was thinking to put a favicon on this site, i wanted to put a butt as a favicon, ofcourse not mine, but someone elses, but i dont know wheather it will be a good idea. or not.</p>
+    <p>Anyways, here's it</p><br>  
+  </div>
+
+  <a>21 June 2026 19:19</a> 
+  <img src="images/ME/t2.webp" alt="thoughts" class="thoughts-avatar">
+  <div class="thoughts-text">
+    <p>I built this site to make myself feel that i am leaving some of my imprints behind.</p>
+    <p>It makes me feel good. also one of my motives was to bring back old days of blogging.
+      People used to make their own simple, plain sites, and then they used to post blogs on them. 
+      It was a nice thing, and i kind of wanted to be a part of it, 
+      well i born too late for that, but i think time is just an illusion, so here iam, making a blog.
+      I wonder how many people will read this, if anybody.</p><br>
+
+  </div>
+
+  <a>21 June 2026 16:22</a>
+  <img src="images/ME/t1.webp" alt="thoughts" class="thoughts-avatar">
+  <div class="thoughts-text">
+    <p>there will be words here, so soon.</p>
+  </div>
+</div>
+
+
+
+<!-- ══ CONNECT ═════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-connect">
+  <div class="label">connect</div>
+
+  <p class="connect-links">
+    <a href="https://github.com/Shaivarth" target="_blank">github</a> ·
+    <a href="https://www.linkedin.com/in/shaivarth/" target="_blank">linkedin</a> ·
+    <a href="https://instagram.com/shaivarth" target="_blank">instagram</a> ·
+    <a href="mailto:shaivarthax@gmail.com">shaivarthax@gmail.com</a> ·
+    <a href="https://medium.com/@shaivarth" target="_blank">medium</a> ·
+    <a href="https://x.com/sarthakm08" target="_blank">x</a> ·
+    <a href="https://discord.com/users/shaivarth" target="_blank">discord</a> ·
+    <a href="https://tryhackme.com/p/sarthakmishra" target="_blank">tryhackme</a>
+  </p>
+</div>
+
+
+
+<footer>
+  <span id="footer-date"></span>
+
+  <span>
+    <a href="#" id="theme-toggle">theme</a>
+    &nbsp;·&nbsp;
+    <a href="#" onclick="go('connect'); return false;">connect</a>
+  </span>
+</footer>
+
+<script>
+  const pages = ['about', 'now', 'reading','thoughts','writing','notes','commonplace','connect'];
+
+  function go(id) {
+    pages.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === id);
+      document.getElementById('nav-'  + p).classList.toggle('active', p === id);
+    });
+    window.scrollTo(0, 0);
+    // keep the URL in sync so back/forward works and links are shareable
+    history.pushState({ page: id }, '', '#' + id);
+    document.title = id === 'about' ? 'Shaivarth' : id + ' · Shaivarth';
+  }
+
+  // handle back/forward button
+  window.addEventListener('popstate', e => {
+    go((e.state && e.state.page) || 'about');
+  });
+
+  // load correct page on first visit if URL has a hash
+  const hash = location.hash.replace('#','');
+  if (pages.includes(hash)) go(hash);
+  else go('about');
+
+const about = new Date();
+
+const date = about.getDate();
+
+const month = about.toLocaleString("en-US", {
+  month: "long"
+});
+
+const year = about.getFullYear();
+
+
+const day = about.toLocaleString("en-US", {
+  weekday: "long"
+});
+
+document.getElementById("footer-date").textContent =
+  `Shaivarth · ${day}, ${date} ${month} ${year}`;
+</script>
+<script>
+const themes = ["dark", "light"];
+let currentTheme = localStorage.getItem("theme") || "dark";
+
+function applyTheme(theme) {
+  if (theme === "light") {
+    document.documentElement.style.setProperty("--bg", "#efefef");
+    document.documentElement.style.setProperty("--text", "#222222");
+    document.documentElement.style.setProperty("--dim", "#666666");
+    document.documentElement.style.setProperty("--hi", "#000000");
+    document.documentElement.style.setProperty("--link", "#0066cc");
+    document.documentElement.style.setProperty("--border", "#dddddd");
+  } else {
+    document.documentElement.style.setProperty("--bg", "#000000");
+    document.documentElement.style.setProperty("--text", "#bdbdbd");
+    document.documentElement.style.setProperty("--dim", "#686868");
+    document.documentElement.style.setProperty("--hi", "#e6e6e6");
+    document.documentElement.style.setProperty("--link", "#56c8ff");
+    document.documentElement.style.setProperty("--border", "#242424");
+  }
+
+  localStorage.setItem("theme", theme);
+  currentTheme = theme;
+}
+
+applyTheme(currentTheme);
+
+document.getElementById("theme-toggle").addEventListener("click", (e) => {
+  e.preventDefault();
+  applyTheme(currentTheme === "dark" ? "light" : "dark");
+});
+</script>
+</body>
+</html>

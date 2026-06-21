@@ -605,17 +605,17 @@ details[open] summary {
       document.getElementById('nav-'  + p).classList.toggle('active', p === id);
     });
     window.scrollTo(0, 0);
-    // keep the URL in sync so back/forward works and links are shareable
+    // keeping the URL in sync so back/forward works and links are shareable
     history.pushState({ page: id }, '', '#' + id);
-    document.title = id === 'about' ? 'Shaivarth' : id + ' · Shaivarth';
+    document.title = id === 'about' ? 'banana' : id + ' · banana';
   }
 
-  // handle back/forward button
+  // handling back/forward button
   window.addEventListener('popstate', e => {
     go((e.state && e.state.page) || 'about');
   });
 
-  // load correct page on first visit if URL has a hash
+  // loading correct page on first visit if URL has a hash
   const hash = location.hash.replace('#','');
   if (pages.includes(hash)) go(hash);
   else go('about');

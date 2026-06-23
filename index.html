@@ -213,9 +213,9 @@ footer a:hover { color: var(--link); }
 .about-text { font-size: 13px; line-height: 1.75; color: var(--text); }
 .about-text p + p { margin-top: 12px; }
 
-/* THOUGHTS */
-.thoughts-text { font-size: 0.9rem; line-height: 1.5; color: var(--text); }
-.thoughts-text p + p { margin-top: 12px; }
+/* ME */
+.ME-text { font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+.ME-text p + p { margin-top: 12px; }
 
 
 /* PICTURE */
@@ -230,7 +230,7 @@ footer a:hover { color: var(--link); }
   filter: grayscale(100%);
 }
 
-.thoughts-avatar {
+.ME-avatar {
   width: 112px;
   height: 112px;
   object-fit: cover;
@@ -346,7 +346,7 @@ details[open] summary {
   <nav> 
     <a href="https://blog.shaivarth.com" target="_blank" rel="noopener noreferrer" id="nav-home">blog.shaivarth.com</a><span>·</span>
     <a onclick="go('about')"         id="nav-about">about</a><span>·</span>
-    <a onclick="go('thoughts')"       id="nav-thoughts">ME</a><span>·</span>
+    <a onclick="go('ME')"            id="nav-ME">ME</a><span>·</span>
     <a onclick="go('reading')"       id="nav-reading">reads</a><span>·</span>
     <a onclick="go('writing')"       id="nav-writing">writes</a><span>·</span>
     <a onclick="go('notes')"         id="nav-notes">notes</a><span>·</span>
@@ -543,13 +543,13 @@ details[open] summary {
 </div>
 
 <!-- ══ ME ════════════════════════════════════════════════════════════════ -->
-<div class="page" id="page-thoughts">
+<div class="page" id="page-ME">
   <div class="label">just ME talking</div>
 
   <a>22 June 2026 14:24</a>
-  <div class="thoughts-text">
+  <div class="ME-text">
     <br>
-      <img src="https://bradfitz.com/pics/brad-peru-cropped.jpg" alt="bradfitzpatrick" class="thoughts-avatar">
+      <img src="https://bradfitz.com/pics/brad-peru-cropped.jpg" alt="bradfitzpatrick" class="ME-avatar">
       <p>In order to improve, you first have to understand what's wrong with you.<br> Only then can you start working on it.
         I rarely get motivated by people, <br>but recently I came across <a href="https://bradfitz.com/">Brad Fitzpatrick</a>, and he genuinely inspired me. <br>
         Looking at what he's built and achieved makes me want to build more,<br> learn more, and constantly improve my own work.
@@ -561,14 +561,14 @@ details[open] summary {
   </div>
 
   <a>21 June 2026 23:31</a>
-  <div class="thoughts-text">
+  <div class="ME-text">
     <br><p>I was thinking of using a butt shaped pear as the favicon for this site. Not mine of course. I'm still not sure whether it's a good idea or not.</p>
     <p>But here it is. I've put it</p><br>  
   </div>
 
   <a>21 June 2026 19:19</a> 
-  <img src="images/ME/t2.webp" alt="thoughts" class="thoughts-avatar">
-  <div class="thoughts-text">
+  <img src="images/ME/t2.webp" alt="thoughts" class="ME-avatar">
+  <div class="ME-text">
     <p>I built this site to make myself feel that i am leaving some of my imprints behind.</p>
     <p>It makes me feel good. also one of my motives was to bring back old days of blogging.
       People used to make their own simple, plain sites, and then they used to post blogs on them. 
@@ -579,8 +579,8 @@ details[open] summary {
   </div>
 
   <a>21 June 2026 16:22</a>
-  <img src="images/ME/t1.webp" alt="thoughts" class="thoughts-avatar">
-  <div class="thoughts-text">
+  <img src="images/ME/t1.webp" alt="thoughts" class="ME-avatar">
+  <div class="ME-text">
     <p>there will be words here, so soon.</p>
   </div>
 </div>
@@ -617,7 +617,7 @@ details[open] summary {
 </footer>
 
 <script>
-  const pages = ['about', 'now', 'reading','thoughts','writing','notes','commonplace','connect'];
+  const pages = ['about', 'now', 'reading','ME','writing','notes','commonplace','connect'];
 
   function go(id) {
     pages.forEach(p => {

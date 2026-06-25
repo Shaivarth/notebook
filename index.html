@@ -339,6 +339,27 @@ details[open] summary {
   color: var(--hi);
 }
 
+.pins-gallery {
+    column-count: 3;
+    column-gap: 20px;
+}
+
+.pins-item {
+    break-inside: avoid;
+    margin-bottom: 20px;
+}
+
+.pins-item img {
+    width: 100%;
+    display: block;
+}
+
+.pins-item figcaption {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--dim);
+}
+
 </style>
 </head>
 <body>
@@ -353,6 +374,7 @@ details[open] summary {
     <a onclick="go('reading')"       id="nav-reading">reads</a><span>·</span>
     <a onclick="go('writing')"       id="nav-writing">writes</a><span>·</span>
     <a onclick="go('notes')"         id="nav-notes">notes</a><span>·</span>
+    <a onclick="go('pins')"        id="nav-pins">pins</a><span>·</span>
     <a onclick="go('now')"           id="nav-now">now</a><span>·</span>
     <a onclick="go('commonplace')"   id="nav-commonplace">quotes</a><span>·</span>
     <a onclick="go('connect')"     id="nav-connect">connect</a><span>·</span> 
@@ -468,6 +490,52 @@ details[open] summary {
     </tbody>
     
     </table>
+  </div>
+</div>
+
+
+
+<!-- ══ PINS ═══════════════════════════════════════ -->
+
+<div class="page" id="page-pins">
+  <div class="label">some things i wanted to pin</div>
+
+  <div class="pins-gallery">
+
+    <figure class="pins-item">
+      <img src="images/pins/008.webp" alt="">
+    </figure>
+
+    <figure class="pins-item">
+      <img src="images/pins/007.webp" alt="">
+    </figure>
+
+    <figure class="pins-item">
+      <img src="images/pins/006.webp" alt="">
+    </figure>
+
+    <figure class="pins-item">
+      <img src="images/pins/005.webp" alt="">
+    </figure>
+
+    <figure class="pins-item">
+      <img src="images/pins/004.webp" alt="">
+    </figure>
+
+    <figure class="pins-item">
+      <img src="images/pins/003.webp" alt="">
+      <figcaption>my grandfather painted this.</figcaption>
+    </figure>
+
+    <figure class="pins-item">
+      <img src="images/pins/002.webp" alt="">
+    </figure>
+
+    <figure class="pins-item">
+      <img src="images/pins/001.webp" alt="">
+      <figcaption>natarāja</figcaption>
+    </figure>
+
   </div>
 </div>
 
@@ -656,7 +724,7 @@ details[open] summary {
 </footer>
 
 <script>
-  const pages = ['about', 'now', 'reading','ME','writing','notes','commonplace','connect'];
+  const pages = ['about', 'now', 'reading','ME','writing','notes','pins','commonplace','connect'];
 
   function go(id) {
     pages.forEach(p => {

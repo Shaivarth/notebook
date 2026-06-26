@@ -649,25 +649,6 @@ details[open] summary {
     <p> i'm happy with how it turned out.</p><br>  
   </div>
 
-  <a>23 June 2026 20:39</a>
-  <div class="ME-text">
-    <br>
-      <p>
-        i was just reading a paper on <a href="https://www.jstor.org/">JSTOR</a>, it is a digital library of academic journals,
-        books, and primary sources, i was reading an article by Ranjana Harish "Pen and Needle: The Changing Metaphors of Self in Autobiographies by Women in Post-Independence India",
-        as i had a free user account on JSTOR, i was able to read articles but not download them, for downloading one has to subscribe to JSTOR, 
-        i have one of those free JSTOR accounts where they let you read up to 100 articles every 30 days. you can open the paper in the browser, scroll through it, 
-        search inside it, all that stuff. but if you actually want to download in PDF form, there's a big red button staring at you saying "Subscribe to download". 
-        and subscription fee is ₹1,920.92 /month in which you get 10 PDF downloads / month, and ₹19,603.21 /year in which you get 120 PDF downloads / year.<br><br>
-        Out of curiosity, i opened DevTools, went to the Network tab, and filtered requests by .pdf. one request immediately stood out. in its header i found out a url, in reques URL section , 
-        it wasn't an image, it wasn't a pdf, it was an actual PDF request returning 206 Partial Content from a temporary Amazon S3 URL.
-        the URL looked like a normal pre-signed AWS S3 link. full of X-Amz-* parameters, but it was valid for only 10 seconds, every new link was expiring in 10 seconds. 
-        so i cmd+R the page. a fresh URL appeared. i copied it, pasted it into another tab before it expired... and my browser downloaded the entire PDF. 
-        no subscription. no ₹19,603.21 a year. no payment at all. that was a fun finding for me, now i can download journals i wanna read, and print them out on papers
-        to make notes, underline, highlight and do whatever i want to do with them without paying anything. 
-      </p><br>  
-  </div>
-
   <a>22 June 2026 14:24</a>
   <div class="ME-text">
     <br>
